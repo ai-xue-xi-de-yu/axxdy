@@ -1,0 +1,474 @@
+<odoo>
+    <data>
+        <!--     仓库tree-->
+        <record id="warehouse_table_view_tree" model="ir.ui.view">
+            <field name="name">仓库</field>
+            <field name="model">warehouse.table</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="type_name_ids" widget="many2many_tags"/>
+                    <field name="admin_ids" widget="many2many_tags"/>
+                    <field name="material_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--     仓库form-->
+        <record id="warehouse_table_view_form" model="ir.ui.view">
+            <field name="name">仓库</field>
+            <field name="model">warehouse.table</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="type_name_ids"/>
+                            <field name="admin_ids" widget="many2many_tags"/>
+                            <field name="material_id"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+        <!--    分类tree-->
+        <record id="warehouse_category_view_tree" model="ir.ui.view">
+            <field name="name">分类</field>
+            <field name="model">warehouse.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="switch_serial"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--    分类form-->
+        <record id="warehouse_category_view_form" model="ir.ui.view">
+            <field name="name">分类</field>
+            <field name="model">warehouse.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="switch_serial"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <!--     物料管理tree-->
+        <record id="material_manage_view_tree" model="ir.ui.view">
+            <field name="name">物料管理</field>
+            <field name="model">material.manage</field>
+            <field name="arch" type="xml">
+                <tree string="物料管理">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="warehouse_ids"/>
+                    <field name="serial_number"/>
+                    <field name="max_number"/>
+                    <field name="unit_price"/>
+                    <field name="total_price"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!--     物料管理graph-->
+        <record id="material_manage_view_graph" model="ir.ui.view">
+            <field name="name">物料管理</field>
+            <field name="model">material.manage</field>
+            <field name="arch" type="xml">
+                <graph string="物料管理" type="bar">
+                    <field name="name" type="row"/>
+                    <field name="max_number" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <!--     物料管理form-->
+        <record id="material_manage_view_form" model="ir.ui.view">
+            <field name="name">物料管理</field>
+            <field name="model">material.manage</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                                <field name="code" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                                <field name="serial_number" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                                <field name="warehouse_ids" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                            </group>
+                            <group>
+
+                                <field name="unit_price" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                                <field name="max_number" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                                <field name="total_price" attrs="{ 'readonly': [('is_write','!=', False)]}"/>
+                                <field name="is_write" invisible="True"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="cargo_ids" domain=
+                                    "[('name','=',name),('code','=',code),('is_lend','=',False)]"
+                            attrs="{ 'invisible': [('is_write','=', False)]}"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+        <!--     货物清单tree-->
+        <record id="cargo_store_view_tree" model="ir.ui.view">
+            <field name="name">货物清单</field>
+            <field name="model">cargo.store</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="serial_number"/>
+                    <field name="name"/>
+                    <field name="unit_price"/>
+                    <field name="date_create"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!--     审批tree-->
+        <record id="material_examine_view_tree" model="ir.ui.view">
+            <field name="name">物料审批</field>
+            <field name="model">material.examine</field>
+            <field name="arch" type="xml">
+                <tree js_class="bicon_list_view_button"
+                      decoration-info="type=='1'"
+                      decoration-success="type=='2'"
+                      decoration-danger="type=='3'"
+                      decoration-warning="type=='0'"
+                      decoration-primary="[('is_need_back', '!=',True)]"
+                >
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="serial_number"/>
+                    <field name="apply_number"/>
+                    <field name="surplus_number"/>
+                    <field name="type"/>
+                    <field name="apply_user_ids"/>
+                    <field name="department_id" widget="many2many_tags"/>
+                    <field name="material_number" invisible="True"/>
+                    <field name="is_need_back"/>
+                    <button name="button_tree" string="审批"
+                            attrs="{'invisible':[('type', '!=','1'),('type','!=','2')]}"
+                            type="object" class="btn_verify"
+                            groups="warehouse.warehouse_department_manage,warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+                    />
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!--   物料审批form-->
+        <record id="material_examine_view_form" model="ir.ui.view">
+            <field name="name">物料审批</field>
+            <field name="model">material.examine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="apply_examine"
+                                attrs="{'invisible':[('type', '!=','0'),('lend_or_back','!=','1')]}"
+                                string="申请出库" type="object"
+                                class="btn_verify"
+                        />
+                        <button name="apply_return"
+                                attrs="{'invisible':['|',('lend_or_back','!=','2'),('type', '!=','4'),('is_back','=',1)]}"
+                                string="申请入库" type="object"
+                                class="btn_verify"
+                        />
+                        <field name="type" widget="statusbar"
+                               statusbar_visible="0,1,2,3,4"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="material_id" attrs="{ 'readonly': [('type','!=','0')]}"/>
+                                <field name="code"/>
+                                <field name="serial_number" attrs="{ 'readonly': [('type','!=','0')]}"/>
+                                <field name="apply_user_ids" readonly="True"/>
+
+                            </group>
+                            <group>
+                                <field name="name"/>
+                                <field name="apply_number"
+                                       attrs="{ 'readonly': ['|','|',('type','=','1'),('type','=','2'),('type','=','4')]}"/>
+                                <field name="surplus_number" attrs="{ 'readonly': [('type','!=','0')]}"/>
+                                <field name="material_number"/>
+                                <field name="department_id" readonly="True"/>
+                                <field name="lend_or_back" invisible="True"/>
+                                <field name="is_back" invisible="True"/>
+                            </group>
+
+                        </group>
+                        <group>
+                            <field name="cargo_ids"
+                                   attrs="{ 'readonly': [('type','!=','0')],'invisible':[('type','=','0')]}"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+        <!--   申请出库-->
+        <record id="material_examine_lend_view_form" model="ir.ui.view">
+            <field name="name">申请出库</field>
+            <field name="model">material.examine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="serial_number"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="lend_submit" type="object" string="提交审批" class="oe_highlight"/>
+                        <button special="cancel" string="取消" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <!--   申请入库-->
+        <record id="material_examine_back_view_form" model="ir.ui.view">
+            <field name="name">申请入库</field>
+            <field name="model">material.examine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="back_number"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="apply_back" type="object" string="申请归还" class="oe_highlight"/>
+                        <button special="cancel" string="取消" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <!--    审批出库-->
+        <record id="material_examine_examine_lend_view_form" model="ir.ui.view">
+            <field name="name">审批出库</field>
+            <field name="model">material.examine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="material_id" readonly="True"/>
+                                <field name="code" readonly="True"/>
+                                <field name="serial_number" readonly="True"/>
+                                <field name="apply_user_ids" readonly="True"/>
+                            </group>
+                            <group>
+                                <field name="name" readonly="True"/>
+                                <field name="apply_number" readonly="True"/>
+                                <field name="surplus_number" readonly="True"/>
+                                <field name="department_id" readonly="True"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+
+                    <footer>
+                        <button name="prompt_box" string="通过" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button string="拒绝" name="lend_turn1" type="object" default_focus="1"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--    审批入库-->
+        <record id="material_examine_examine_back_view_form" model="ir.ui.view">
+            <field name="name">审批入库</field>
+            <field name="model">material.examine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="material_id" readonly="True"/>
+                                <field name="code" readonly="True"/>
+                                <field name="serial_number" readonly="True"/>
+                                <field name="apply_user_ids" readonly="True"/>
+                            </group>
+                            <group>
+                                <field name="name" readonly="True"/>
+                                <field name="back_number" readonly="True"/>
+                                <field name="department_id" readonly="True"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+
+                    <footer>
+                        <button name="back_pass_examine" string="通过" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button string="拒绝" name="back_turn" type="object" default_focus="1"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--     借还记录tree-->
+        <record id="warehouse_return_view_tree" model="ir.ui.view">
+            <field name="name">借还记录</field>
+            <field name="model">warehouse.return</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="unit_price"/>
+                    <field name="lend_and_bock"/>
+                    <field name="apply_number"/>
+                    <field name="cargo_ids"/>
+                    <field name="date_lend"/>
+                    <field name="lend_name_ids"/>
+
+                </tree>
+            </field>
+        </record>
+        <!--     部门tree-->
+        <record id="department_view_tree" model="ir.ui.view">
+            <field name="name">部门</field>
+            <field name="model">department.task</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="parent_department_ids"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--    用户管理-->
+        <record id="warehouse_groups_users_view_tree" model="ir.ui.view">
+            <field name="name">权限form视图</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="(//tree)" position="replace">
+                    <tree editable="bottom">
+                        <field name="login"/>
+                        <field name="create_uid"/>
+                        <field name="name"/>
+                        <field name="password"/>
+                        <field name="department_ids" widget="many2many_tags"/>
+                        <field name="groups_id" widget="many2many_tags" domain="[('category_id.name','=','仓库管理')]"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--     瞬态模型modle tree-->
+        <record id="warehouse_warehouse_view_form" model="ir.ui.view">
+            <field name="name">部门</field>
+            <field name="model">warehouse.warehouse</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h1>确定要全部通过吗</h1>
+                    <footer>
+                        <button name="all_pass" string="全部通过" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button string="全部拒绝" name="all_trun" type="object" default_focus="1" class="oe_highlight"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+        <!--     瞬态模型pbox tree-->
+        <record id="peompt_box_view_form" model="ir.ui.view">
+            <field name="name">部门</field>
+            <field name="model">peompt.box</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h1>序列号不匹配哦</h1>
+                    <footer>
+                        <button name="confirm_button" string="确定" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+        <!--     瞬态模型-->
+        <record id="mutil_number_view_form" model="ir.ui.view">
+            <field name="name">序列号</field>
+            <field name="model">mutil.number</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h1>输入序列号进行匹配!</h1>
+                    <group>
+                        <field name="sup_number"/>
+                    </group>
+                    <footer>
+                        <button name="all_pass" string="确定" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button string="取消" name="button_cancel" type="object" default_focus="1" class="oe_highlight"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+
+        <!--     瞬态模型-->
+        <record id="mutil_number_cargos_view_form" model="ir.ui.view">
+            <field name="name">序列号</field>
+            <field name="model">mutil.number</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="apply_number" readonly="True"/>
+                        <field name="cargos_name" invisible="True"/>
+                        <field name="cargo_ids" domain="[('is_lend','=',False),('name','=',cargos_name)]"/>
+                    </group>
+                    <footer>
+                        <button name="all_mil_pass" string="确定" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button string="取消" name="button_cancel" type="object" default_focus="1" class="oe_highlight"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+
+        <!--     瞬态模型-->
+        <record id="peompt_bumber_view_form" model="ir.ui.view">
+            <field name="name">跳转视图</field>
+            <field name="model">peompt.bumber</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h1>存在序列号不匹配</h1>
+                    <footer>
+                        <button name="pass_button" string="确定" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

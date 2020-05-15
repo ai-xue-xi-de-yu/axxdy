@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_model_warehouse_table,access_model_warehouse_table,model_warehouse_table,,1,1,1,1
+access_model_warehouse_category,access_model_warehouse_category,model_warehouse_category,,1,1,1,1
+access_model_material_manage,access_model_material_manage,model_material_manage,,1,1,1,1
+access_model_cargos,access_model_cargos,model_cargo_store,,1,1,1,1
+access_model_material_examine,access_model_material_examine,model_material_examine,,1,1,1,1
+access_model_warehouse_return,access_model_warehouse_return,model_warehouse_return,,1,1,1,1
+access_model_department,access_model_department,model_department_task,,1,1,1,1
+acc_agency_matters_groups_user,acc_agency_matters_groups_user,base.model_res_users,,1,1,1,1
+acc_salary_management_groups_doudule,acc_agency_matters_groups_doudule,base.model_ir_module_category,,1,1,1,1

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+         <!--         代办事项权限分配-->
+        <record id="module_category_warehouse" model="ir.module.category">
+            <field name="name">仓库管理</field>
+        </record>
+         <!--             用户-->
+        <record id="warehouse_groups_user" model="res.groups">
+            <field name="name">用户</field>
+            <field name="category_id" ref="warehouse.module_category_warehouse"/>
+        </record>
+            <!--         仓库管理员-->
+        <record id="warehouse_warehouse_manage" model="res.groups">
+            <field name="name">仓库管理员</field>
+            <field name="category_id" ref="warehouse.module_category_warehouse"/>
+        </record>
+            <!--         部门经理-->
+        <record id="warehouse_department_manage" model="res.groups">
+            <field name="name">部门管理员</field>
+            <field name="category_id" ref="warehouse.module_category_warehouse"/>
+        </record>
+
+          <!--         部门经理-->
+        <record id="warehouse_odoo_manage" model="res.groups">
+            <field name="name">内置管理员</field>
+            <field name="category_id" ref="warehouse.module_category_warehouse"/>
+        </record>
+    </data>
+</odoo>

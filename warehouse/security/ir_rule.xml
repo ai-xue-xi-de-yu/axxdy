@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- 经理-->
+        <record id="rule_warehouse_department_manage_examine" model="ir.rule">
+            <field name="name">经理能看到下级部门的审批</field>
+            <field name="model_id" ref="model_material_examine"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_department_manage'))]"/>
+            <field name="domain_force">
+                ['|','|',('department_id.parent_department_ids.id','in',user.department_ids.ids),
+                ('apply_user_ids.id','=',user.id),
+                ('department_id.id','in',user.department_ids.ids)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+         <!-- 经理-->
+        <record id="rule_warehouse_return_manage_examine" model="ir.rule">
+            <field name="name">经理能看到下级的出借表</field>
+            <field name="model_id" ref="model_warehouse_return"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_department_manage'))]"/>
+            <field name="domain_force">
+                ['|','|',('lend_name_ids.department_ids.parent_department_ids.id','in',user.department_ids.ids),
+                ('lend_name_ids.id','=',user.id),
+                ('lend_name_ids.department_ids.id','in',user.department_ids.ids)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <!--用户-->
+        <record id="rule_warehouse_warehouse_groups_user" model="ir.rule">
+            <field name="name">用户可见自己的物料</field>
+            <field name="model_id" ref="model_material_examine"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_groups_user'))]"/>
+            <field name="domain_force">
+                [('apply_user_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+        <record id="rule_warehouse_return_groups_user" model="ir.rule">
+            <field name="name">用户可见自己的借还记录</field>
+            <field name="model_id" ref="model_warehouse_return"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_groups_user'))]"/>
+            <field name="domain_force">
+                [('lend_name_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+        </record>
+
+
+        <!-- 仓库管理员-->
+        <record id="rule_warehouse_warehouse_warehouse_manage_table" model="ir.rule">
+            <field name="name">仓库管理员只可见自己的仓库</field>
+            <field name="model_id" ref="model_warehouse_table"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_warehouse_manage'))]"/>
+            <field name="domain_force">
+                [('admin_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="rule_warehouse_warehouse_manage_material_manage" model="ir.rule">
+            <field name="name">仓库管理员只可见自己仓库的物料管理</field>
+            <field name="model_id" ref="model_material_manage"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_warehouse_manage'))]"/>
+            <field name="domain_force">
+                [('warehouse_ids.admin_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="rule_warehouse_warehouse_manage_material_examine" model="ir.rule">
+            <field name="name">仓库管理员只可见自己仓库的物料审批</field>
+            <field name="model_id" ref="model_material_examine"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_warehouse_manage'))]"/>
+            <field name="domain_force">
+                [('material_id.warehouse_ids.admin_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="rule_warehouse_cargos_manage_material_examine" model="ir.rule">
+            <field name="name">仓库管理员只可见自己仓库的存货记录</field>
+            <field name="model_id" ref="model_cargo_store"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_warehouse_manage'))]"/>
+            <field name="domain_force">
+                [('warehouse_ids.admin_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+
+        <record id="rule_warehouse_return_manage_material_examine" model="ir.rule">
+            <field name="name">仓库管理员只可见自己仓库的出借记录</field>
+            <field name="model_id" ref="model_warehouse_return"/>
+            <field name="groups" eval="[(4,ref('warehouse.warehouse_warehouse_manage'))]"/>
+            <field name="domain_force">
+                [('warehouse_ids.admin_ids.id','=',user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+</odoo>

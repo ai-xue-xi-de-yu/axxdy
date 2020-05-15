@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <act_window
+                id="warehouse_table_action"
+                name="仓库分类"
+                res_model="warehouse.table"
+                view_mode="tree,form"
+        />
+        <act_window
+                id="warehouse_category_action"
+                name="分类"
+                res_model="warehouse.category"
+                view_mode="tree,form"
+        />
+        <act_window
+                id="material_manage_action"
+                name="物料管理"
+                res_model="material.manage"
+                view_mode="tree,form,graph"
+                limit="10"
+        />
+
+        <act_window
+                id="cargo_store_action"
+                name="货物详情"
+                res_model="cargo.store"
+                view_mode="tree,form"
+                limit="10"
+        />
+
+        <record id="material_examine_action" model="ir.actions.act_window">
+            <field name="name">物料审批</field>
+            <field name="res_model">material.examine</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5,0,0),
+                          (0,0,{'view_mode':'tree', 'view_id': ref('material_examine_view_tree')}),
+                          (0,0,{'view_mode':'form', 'view_id': ref('material_examine_view_form')})]"/>
+            <field name="target">current</field>
+        </record>
+
+        <record id="material_examine_action1" model="ir.actions.act_window">
+            <field name="name">物料申请审批</field>
+            <field name="res_model">material.examine</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5,0,0),
+                          (0,0,{'view_mode':'tree', 'view_id': ref('material_examine_view_tree')}),
+                          (0,0,{'view_mode':'form', 'view_id': ref('material_examine_view_form')})]"/>
+            <field name="target">current</field>
+        </record>
+
+
+        <act_window
+                id="warehouse_return_action"
+                name="借用归还记录"
+                res_model="warehouse.return"
+                view_mode="tree,form"
+        />
+
+        <act_window
+                id="department_task_action"
+                name="部门"
+                res_model="department.task"
+                view_mode="tree,form"
+        />
+
+        <record id="group_users_action" model="ir.actions.act_window">
+            <field name="name">用户管理</field>
+            <field name="res_model">res.users</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5,0,0),
+                          (0,0,{'view_mode':'tree', 'view_id': ref('warehouse_groups_users_view_tree')})]"/>
+            <field name="target">current</field>
+        </record>
+
+
+        <menuitem id="menu_warehouse_main" name="仓库管理"/>
+        <menuitem
+                id="submenu_warehouse_table"
+                name="仓库/分类"
+                parent="menu_warehouse_main"
+                sequence="1"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+        <menuitem name="仓库"
+                  id="submenu_submenu_warehouse_table"
+                  action="warehouse_table_action"
+                  parent="submenu_warehouse_table"
+                  sequence="1"
+                  groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+
+        />
+        <menuitem
+                id="submenu_warehouse_category"
+                name="分类"
+                action="warehouse_category_action"
+                parent="submenu_warehouse_table"
+                sequence="2"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+        <menuitem
+                id="submenu_material_manage"
+                name="物料管理"
+                action="material_manage_action"
+                parent="menu_warehouse_main"
+                sequence="3"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+        <menuitem
+                id="submenu_submenu_material_manage"
+                name="物料管理"
+                action="material_manage_action"
+                parent="submenu_material_manage"
+                sequence="3"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+        <menuitem
+                id="submenu_cargo_store"
+                name="货物详情"
+                action="cargo_store_action"
+                parent="submenu_material_manage"
+                sequence="4"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+
+        <menuitem
+                id="submenu_material_examine1"
+                name="物料审批"
+                action="material_examine_action1"
+                parent="menu_warehouse_main"
+                sequence="5"
+                groups="warehouse.warehouse_groups_user"
+        />
+        <menuitem
+                id="submenu_material_examine"
+                name="物料审批"
+                action="material_examine_action"
+                parent="menu_warehouse_main"
+                sequence="4"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_department_manage,warehouse.warehouse_odoo_manage"
+        />
+        <menuitem
+                id="submenu_warehouse_return"
+                name="借用归还记录"
+                action="warehouse_return_action"
+                parent="menu_warehouse_main"
+                sequence="6"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_groups_user,warehouse.warehouse_department_manage,warehouse.warehouse_odoo_manage"
+        />
+
+        <menuitem
+                id="submenu_department_task"
+                name="部门"
+                parent="menu_warehouse_main"
+                sequence="7"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+
+        <menuitem
+                id="submenu_department_task_1"
+                name="部门"
+                action="department_task_action"
+                parent="submenu_department_task"
+                sequence="1"
+                groups="warehouse.warehouse_warehouse_manage,warehouse.warehouse_odoo_manage"
+        />
+        <menuitem
+                id="submenu_group_users"
+                name="用户管理"
+                action="group_users_action"
+                parent="submenu_department_task"
+                sequence="2"
+                groups="warehouse.warehouse_odoo_manage"
+        />
+    </data>
+</odoo>
